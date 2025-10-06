@@ -1,0 +1,5 @@
+spring:
+  config:
+    name: kai-frame-ddd
+  profiles:
+    active: dev

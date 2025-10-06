@@ -1,0 +1,1 @@
+package io.github.alfonsokevin.domain.xxx.repository;

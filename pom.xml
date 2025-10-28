@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.kaikai</groupId>
+    <groupId>io.github.alfonsokevin</groupId>
     <artifactId>kai-frame-ddd</artifactId>
     <version>1.0.0</version>
     <packaging>pom</packaging>
@@ -16,11 +16,17 @@
         <module>kai-frame-trigger</module>
         <module>kai-frame-types</module>
     </modules>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+    </parent>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <hutool.version>5.8.18</hutool.version>
         <org.projectlombok.version>1.18.26</org.projectlombok.version>
         <fastjson2.version>2.0.52</fastjson2.version>
@@ -46,37 +52,32 @@
         </license>
     </licenses>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.12</version>
-    </parent>
 
     <dependencyManagement>
         <dependencies>
             <!-- 工程模块 -->
             <dependency>
-                <groupId>com.kaikai</groupId>
+                <groupId>io.github.alfonsokevin</groupId>
                 <artifactId>kai-frame-api</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.kaikai</groupId>
+                <groupId>io.github.alfonsokevin</groupId>
                 <artifactId>kai-frame-domain</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.kaikai</groupId>
+                <groupId>io.github.alfonsokevin</groupId>
                 <artifactId>kai-frame-infrastracture</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.kaikai</groupId>
+                <groupId>io.github.alfonsokevin</groupId>
                 <artifactId>kai-frame-trigger</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>com.kaikai</groupId>
+                <groupId>io.github.alfonsokevin</groupId>
                 <artifactId>kai-frame-types</artifactId>
                 <version>1.0.0</version>
             </dependency>
@@ -160,6 +161,15 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+            <!--archetype-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-archetype-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <propertyFile>archetype.properties</propertyFile>
                 </configuration>
             </plugin>
             <plugin>

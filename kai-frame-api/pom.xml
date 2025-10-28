@@ -10,21 +10,24 @@
     </parent>
 
     <artifactId>kai-frame-api</artifactId>
-
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.kaikai</groupId>
+            <artifactId>kai-frame-types</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
         </dependency>
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>com.kaikai</groupId>
-            <artifactId>kai-frame-types</artifactId>
         </dependency>
     </dependencies>
 

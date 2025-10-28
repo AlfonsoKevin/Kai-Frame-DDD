@@ -1,5 +1,12 @@
+server:
+  port: 8087
 spring:
-  config:
+  application:
     name: kai-frame-ddd
   profiles:
     active: dev
+  datasource:
+    url:
+    driver-class-name:
+    username:
+    password:

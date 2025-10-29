@@ -1,0 +1,1 @@
+package io.github.alfonsokevin.infrastructure.persistent.elasticsearch.po;

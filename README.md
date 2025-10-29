@@ -20,7 +20,7 @@
 
 ---
 
-基于SpringBoot的领域驱动设计DDD快速开发脚手架（[Maven Archetype](https://maven.apache.org/archetype/maven-archetype-plugin/generate-mojo.html)），旨在帮助开发者以业务领域为核心，构建高内聚、低耦合的应用架构。
+基于SpringBoot的**领域驱动设计DDD快速开发脚手架**（[Maven Archetype](https://maven.apache.org/archetype/maven-archetype-plugin/generate-mojo.html)），旨在帮助开发者以业务领域为核心，构建高内聚、低耦合的应用架构。
 
 - 采用分层与分域相结合的DDD架构模式（Domain、Application、Infrastructure、Interface）
 - 内置通用领域基础组件，支持聚合根、领域事件、仓储等机制
@@ -28,32 +28,89 @@
 - 聚焦领域建模与业务逻辑，实现代码与业务语义的强绑定
 - 提供基础依赖与模板示例，助力团队快速上手领域驱动开发
 
+| Dependencies | Version |
+| ------------ | ------- |
+| SpringBoot   | 3.2.0   |
+| JDK          | 17      |
+| ...          | ...     |
+
 ## 目录结构&设计🚀
 
 ---
 
-
+结构树：
 
 ```txt
-├─📄 .gitignore
-├─📁 docs
-├─📁 kai-frame-api
-├─📁 kai-frame-app
-├─📁 kai-frame-domain
-├─📁 kai-frame-infrastracture
+├─📁 docs                                    # 相关文档
+│ └─📁 dev-ops
+│   ├─📁 mysql                               # .sql文件
+│   └─📁 redis
+├─📁 kai-frame-api                           # rpc，远程调用相关
+├─📁 kai-frame-app                           # 应用层，启动项目
+├─📁 kai-frame-domain                        # 领域层，DDD核心
+│ ├─📄 pom.xml
+│ └─📁 src
+│   └─📁 main
+│     └─📁 java
+│       └─📁 io
+│         └─📁 github
+│           └─📁 alfonsokevin
+│             └─📁 domain
+│               └─📁 xxx
+│                 ├─📁 event                 # 事件，消息
+│                 ├─📁 model                 # 聚合，实体，值对象
+│                 ├─📁 repository            # 仓储接口
+│                 └─📁 service               # 服务，和服务实现
+├─📁 kai-frame-infrastructure                # 基础层
+│ ├─📄 pom.xml
+│ └─📁 src
+│   └─📁 main
+│     └─📁 java
+│       └─📁 io
+│         └─📁 github
+│           └─📁 alfonsokevin
+│             └─📁 infrastructure
+│               ├─📁 event                   # MQ消息发送，供
+│               ├─📁 gateway                 # 网关
+│               └─📁 persistent              # 仓储层实现
+│                 ├─📁 dao                   # mapper接口和持久化对象
+│                 ├─📁 elasticsearch         # es相关
+│                 ├─📁 redis                 # redis相关
+│                 └─📁 utils                 # 工具类
 ├─📁 kai-frame-trigger
-├─📁 kai-frame-types
-├─📄 pom.xml
-└─📄 README.md
+│ ├─📄 pom.xml
+│ └─📁 src
+│   └─📁 main
+│     └─📁 java
+│       └─📁 io
+│         └─📁 github
+│           └─📁 alfonsokevin
+│             └─📁 trigger
+│               ├─📁 http                    # Controller接口
+│               ├─📁 job                     # 定时任务
+│               └─📁 listener                # 消息消费者/事件驱动
+└─📁 kai-frame-types
+  ├─📄 pom.xml
+  └─📁 src
+    └─📁 main
+      └─📁 java
+        └─📁 io
+          └─📁 github
+            └─📁 alfonsokevin
+              └─📁 types
+                ├─📁 annotations             # 自定义注解
+                ├─📁 common                  # 通用包
+                ├─📁 enums                   # 自定义常用枚举
+                ├─📁 event                   # 基础事件/消息模板
+                ├─📁 exception               # 异常处理
+                └─📁 utils                   # 通用工具包
 ```
-
-
 
 ### 详细介绍
 
 > 先决条件：
 >
-> 1.一定要有Maven, 本地配置正常并且在3.0以上
+> 1.一定要有Maven, 本地配置正常并且在**3.0**以上
 >
 > 2.如果您项目中没有接触过DDD，建议您在使用DDD脚手架开发之前，最好先了解：
 >
@@ -67,18 +124,42 @@
 
 ##### 指定坐标信息创建⭐
 
+```java
+mvn archetype:generate "-DgroupId=io.github.alfonsokevin" "-DartifactId=kai-ddd" "-Dversion=1.0.0 -Dpackage=io.github.alfonsokevin" "-DserverPort=8081" "-DarchetypeGroupId=io.github.alfonsokevin" "-DarchetypeArtifactId=kai-frame-ddd-archetype" "-DarchetypeVersion=1.0.0" "-DprofilesActive=dev" "-DinteractiveMode=false"
+```
+
+格式化后：
+
+```java
+mvn archetype:generate
+ -DgroupId=io.github.alfonsokevin
+ -DartifactId=kai-ddd
+ -Dversion=1.0.0
+ -Dpackage=io.github.alfonsokevin
+ -DserverPort=8081
+ -DprofilesActive=dev
+ -DarchetypeGroupId=io.github.alfonsokevin
+ -DarchetypeArtifactId=kai-frame-ddd-archetype
+ -DarchetypeVersion=1.0.0
+ -DinteractiveMode=false
+```
+
 参数解读：
 
-| 参数                  | 解释                                 | 是否可自定义 |
-| --------------------- | ------------------------------------ | ------------ |
-| -DinteractiveMode     | 非交互式                             | Y            |
-| -DgroupId             | 你想要生成项目的groupId              | Y            |
-| -DartifactId          | 你想要生成项目的artifactId（项目名） | Y            |
-| -Dversion             | 你想要生成项目的version              | Y            |
-| -Dpackage             | 你想要生成项目的包名                 | Y            |
-| -DarchetypeGroupId    | 使用到的模板的groupId                | N            |
-| -DarchetypeArtifactId | 使用到的模板的artifactId             | N            |
-| -DarchetypeVersion    | 使用到的模板的version                | N            |
+| 参数                  | 解释                                 | 是否可自定义 | 默认值                  |
+| --------------------- | ------------------------------------ | ------------ | ----------------------- |
+| -DgroupId             | 你想要生成项目的groupId              | Y            | 交互输入/命令行提前输入 |
+| -DartifactId          | 你想要生成项目的artifactId（项目名） | Y            | 交互输入/命令行提前输入 |
+| -Dversion             | 你想要生成项目的version              | Y            | 交互输入/命令行提前输入 |
+| -Dpackage             | 你想要生成项目的包名                 | Y            | 交互输入/命令行提前输入 |
+| -DserverPort          | 默认项目端口号                       | Y            | 8081                    |
+| -DprofilesActive      | 运行环境                             | Y            | dev                     |
+| -DinteractiveMode     | 交互式创建                           | Y            | true                    |
+| -DarchetypeGroupId    | 使用到的模板的groupId                | N            | io.github.alfonsokevin  |
+| -DarchetypeArtifactId | 使用到的模板的artifactId             | N            | kai-frame-ddd-archetype |
+| -DarchetypeVersion    | 使用到的模板的version                | N            | 1.0.0                   |
+
+
 
 ##### 本地保存文件创建
 
@@ -108,7 +189,7 @@ mvn archetype:generate -DarchetypeCatalog=local
 2.命令一键生成（同指定坐标信息创建)
 
 ```java
-mvn archetype:generate -DgroupId=io.github.alfonsokevin -DartifactId=kai-ddd-test2 -Dversion=1.0.0 -Dpackage=io.github.alfonsokevin -DserverPort=8081 -DarchetypeGroupId=io.github.alfonsokevin -DarchetypeArtifactId=kai-frame-ddd-archetype -DarchetypeVersion=1.0.0 -DprofilesActive=dev -DinteractiveMode=false
+mvn archetype:generate "-DgroupId=io.github.alfonsokevin" "-DartifactId=kai-ddd" "-Dversion=1.0.0 -Dpackage=io.github.alfonsokevin" "-DserverPort=8081" "-DarchetypeGroupId=io.github.alfonsokevin" "-DarchetypeArtifactId=kai-frame-ddd-archetype" "-DarchetypeVersion=1.0.0" "-DprofilesActive=dev" "-DinteractiveMode=false"
 ```
 
 

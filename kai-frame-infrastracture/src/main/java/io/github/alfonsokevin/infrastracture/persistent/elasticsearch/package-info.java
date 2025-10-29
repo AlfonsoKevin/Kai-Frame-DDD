@@ -1,1 +1,0 @@
-package io.github.alfonsokevin.infrastracture.persistent.elasticsearch;

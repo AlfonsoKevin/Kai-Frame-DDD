@@ -124,6 +124,13 @@
 
 ##### 1.指定坐标信息创建⭐
 
+```xml
+<groupId>io.github.alfonsokevin</groupId>
+<artifactId>kai-frame-ddd-archetype</artifactId>
+<version>1.0.0</version>
+<packaging>maven-archetype</packaging>
+```
+
 使用Maven Cental的坐标进行创建，在想要创建的项目路径下，直接使用mvn命令如下
 
 ```java
@@ -168,12 +175,12 @@ mvn archetype:generate
 将以下内容添加到本地仓库`~/.m2/repository`中(一般是在C:Users下)的`archetype-catalog.xml`文件中
 
 ```xml
-    <archetype>
-      <groupId>io.github.alfonsokevin</groupId>
-      <artifactId>kai-frame-ddd-archetype</artifactId>
-      <version>1.0.0</version>
-      <description>Parent pom providing dependency and plugin management for applications built with Maven</description>
-    </archetype>
+<archetype>
+  <groupId>io.github.alfonsokevin</groupId>
+  <artifactId>kai-frame-ddd-archetype</artifactId>
+  <version>1.0.0</version>
+  <description>Parent pom providing dependency and plugin management for applications built with Maven</description>
+</archetype>
 ```
 
 使用方式：

@@ -122,7 +122,9 @@
 
 ####  使用说明
 
-##### 指定坐标信息创建⭐
+##### 1.指定坐标信息创建⭐
+
+使用Maven Cental的坐标进行创建，在想要创建的项目路径下，直接使用mvn命令如下
 
 ```java
 mvn archetype:generate "-DgroupId=io.github.alfonsokevin" "-DartifactId=kai-ddd" "-Dversion=1.0.0 -Dpackage=io.github.alfonsokevin" "-DserverPort=8081" "-DarchetypeGroupId=io.github.alfonsokevin" "-DarchetypeArtifactId=kai-frame-ddd-archetype" "-DarchetypeVersion=1.0.0" "-DprofilesActive=dev" "-DinteractiveMode=false"
@@ -161,7 +163,7 @@ mvn archetype:generate
 
 
 
-##### 本地保存文件创建
+##### 2.本地保存文件创建
 
 将以下内容添加到本地仓库`~/.m2/repository`中(一般是在C:Users下)的`archetype-catalog.xml`文件中
 
